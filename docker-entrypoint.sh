@@ -22,6 +22,14 @@ function terminate() {
 }
 
 trap terminate CHLD
+
+finish() {
+  echo '> Stopping all services..'
+  process_scripts "${ENTRYPOINT_ROOT}/stop.d"
+  echo '> Shutting down now.'
+}
+
+trap finish SIGTERM SIGQUIT SIGINT
 wait
 
 exit $exitcode
